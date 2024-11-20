@@ -2,11 +2,11 @@
 namespace App\Controllers;
 
 use App\Core\User as U;
-use App\Models\UserModel;
+use App\Models\User;
 use App\Core\View;
 use App\Core\SQL;
 
-class User
+class UserController
 {
 
     // public function register(): void
@@ -35,11 +35,12 @@ class User
             ];
 
             $sql = new SQL();
-            $user = new UserModel($sql->GetPdo());
+            $user = new User($sql->GetPdo());
 
             if ($user->addUser($data)) {
-                // header('Location: /success');
+                header('Location: /');
                 echo "enregistrement réussi";
+                
                 exit;
             } else {
                 echo "Error: Unable to register.";

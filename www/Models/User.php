@@ -3,7 +3,7 @@
 namespace App\Models;
 use PDO;
 
-class UserModel{
+class User{
 
     private int $id;
     private string $firstname;

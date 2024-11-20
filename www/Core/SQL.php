@@ -24,4 +24,8 @@ class SQL
        return $queryPrepared->fetch();
     }
 
+    public function GetPdo(){
+        return $this->pdo;
+    }
+
 }

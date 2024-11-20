@@ -11,7 +11,7 @@ class Main
             
         $pseudo = "killian";
         $view = new View("Main/home.php", "front.php");
-        $view->addProp("pseudo",$pseudo);
+        $view->addData("pseudo",$pseudo);
 
 
         // afficahnt bonjour, $pseudo.

@@ -1,3 +1,7 @@
+/:
+  controller: "Main"
+  action: "home"
+
 /user/add:
   controller: "User"
   action: "register"

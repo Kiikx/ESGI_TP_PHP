@@ -1,19 +1,23 @@
+/:
+  controller: "MainController"
+  action: "home"
+
 /user/add:
-  controller: "User"
+  controller: "UserController"
   action: "register"
 
 /se-connecter:
-  controller: "User"
+  controller: "UserController"
   action: "login"
 
 /se-deconnecter:
-  controller: "User"
+  controller: "UserController"
   action: "logout"
 
 /backoffice:
-  controller: "Backoffice"
+  controller: "BackofficeController"
   action: "dashboard"
 
 /page:
-  controller: "page"
+  controller: "PageController"
   action: "show"

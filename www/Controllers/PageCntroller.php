@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Core\View;
 use App\Core\SQL;
 
-class page
+class PageController
 {
 
     public function show(){

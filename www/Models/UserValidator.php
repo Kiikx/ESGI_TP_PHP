@@ -1,4 +1,6 @@
 <?php
+namespace App\Models;
+
 class UserValidator{
 
     public Object $user;
@@ -18,8 +20,11 @@ class UserValidator{
         if( strlen($user->getLastname())<2){
             $this->errors[] = "Le nom doit faire plus de 2 caractères";
         }
-        if( !filter_var($user->getEmail(),FILTER_VALIDATE_EMAIL)){
+        if( !filter_var($user->getEmail(),FILTER_VALIDATE_EMAIL) || $user->emailExists($user->getEmail())){
             $this->errors[] = "L'email est invalide";
+        }
+        if (empty($user->getCountry()) || strlen($user->getCountry()) != 2) {
+            $this->errors[] = 'Le pays est obligatoire et doit faire 2 caractère.';
         }
         if(strlen($this->pwdConfirm)<8 ||
             !preg_match("/[a-z]/", $this->pwdConfirm) ||

@@ -112,24 +112,30 @@ class User{
      */
     public function setCountry(string $country): void
     {
-        $this->pwd = $country;
+        $this->country = strtoupper(trim($country));;
     }
 
 
 
-    public function addUser($data) {
+    public function addUser() {
         $sql = "INSERT INTO users (email, password, firstname, lastname, country) VALUES (:email, :password, :firstname, :lastname, :country)";
         $request = $this->db->prepare($sql);
-        $request->bindParam(':email', $data["email"]);
+        $request->bindParam(':email', $this->email);
 
-        $hashPwd = password_hash($data["password"], PASSWORD_BCRYPT);
-        $request->bindParam(':password', $hashPwd);
+        $request->bindParam(':password', $this->pwd);
 
-        $request->bindParam(':firstname', $data["firstname"]);
-        $request->bindParam(':lastname', $data["lastname"]);
-        $request->bindParam(':country', $data["country"]);
+        $request->bindParam(':firstname', $this->firstname);
+        $request->bindParam(':lastname',$this->lastname);
+        $request->bindParam(':country', $this->country);
 
-        return $request->execute(); // Retourne true si l'insertion réussit
+        return $request->execute(); 
+    }
+    
+    public function emailExists($email) {
+        $sql = "SELECT COUNT(*) FROM users WHERE email = :email";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':email' => $email]);
+        return $stmt->fetchColumn() > 0;
     }
 
 

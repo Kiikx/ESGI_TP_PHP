@@ -1,6 +1,16 @@
 <?php 
-
+if(!empty($errors)){
+    echo '<div style="background-color: red">';
+    echo "<ul>";
+    foreach ($errors as $error)
+    {
+        echo '<li>'.$error.'</li>';
+    }
+    echo "</ul>";
+    echo '</div>';
+}
 ?>
+
 
 <form method="POST" action="/user/add">
     <input name="firstname" type="text" placeholder="votre prénom"><br>

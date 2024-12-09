@@ -13,6 +13,7 @@ class User
     private string $email;
     private string $pwd;
     private string $country;
+    private string $bio;
 
     private PDO $db;
 
@@ -117,11 +118,27 @@ class User
         $this->country = strtoupper(trim($country));;
     }
 
+    /**
+    * @return String
+    */
+   public function getBio(): string
+   {
+       return $this->bio;
+   }
+
+   /**
+    * @param String $bio
+    */
+   public function setBio(string $bio): void
+   {
+       $this->bio = ucwords(strtolower(trim($bio)));
+   }
+
 
 
     public function addUser()
     {
-        $sql = "INSERT INTO users (email, password, firstname, lastname, country) VALUES (:email, :password, :firstname, :lastname, :country)";
+        $sql = "INSERT INTO users (email, password, firstname, lastname, country, bio) VALUES (:email, :password, :firstname, :lastname, :country, :bio)";
         $request = $this->db->prepare($sql);
         $request->bindParam(':email', $this->email);
 
@@ -130,6 +147,7 @@ class User
         $request->bindParam(':firstname', $this->firstname);
         $request->bindParam(':lastname', $this->lastname);
         $request->bindParam(':country', $this->country);
+        $request->bindParam(':bio', $this->bio);
 
         return $request->execute();
     }
@@ -155,4 +173,15 @@ class User
         $stmt->execute([':email' => $email]);
         return $stmt->fetchColumn() ?: null;
     }
+
+    public function deleteUserByEmail(string $email): bool
+    {
+        $sql = "DELETE FROM users WHERE email = :email";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    
+        return $stmt->execute();
+    }
+    
+
 }

@@ -6,6 +6,10 @@
   controller: "UserController"
   action: "register"
 
+/user/delete:
+  controller: "UserController"
+  action: "delete"
+
 /se-connecter:
   controller: "UserController"
   action: "login"

@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Models;
+
 use PDO;
 
-class User{
+class User
+{
 
     private int $id;
     private string $firstname;
@@ -15,7 +17,7 @@ class User{
     private PDO $db;
 
 
-    public function __construct(PDO $db) 
+    public function __construct(PDO $db)
     {
         $this->db = $db;
     }
@@ -99,7 +101,7 @@ class User{
         $this->pwd = password_hash($pwd, PASSWORD_DEFAULT);
     }
 
-        /**
+    /**
      * @return String
      */
     public function getCountry(): string
@@ -117,7 +119,8 @@ class User{
 
 
 
-    public function addUser() {
+    public function addUser()
+    {
         $sql = "INSERT INTO users (email, password, firstname, lastname, country) VALUES (:email, :password, :firstname, :lastname, :country)";
         $request = $this->db->prepare($sql);
         $request->bindParam(':email', $this->email);
@@ -125,27 +128,31 @@ class User{
         $request->bindParam(':password', $this->pwd);
 
         $request->bindParam(':firstname', $this->firstname);
-        $request->bindParam(':lastname',$this->lastname);
+        $request->bindParam(':lastname', $this->lastname);
         $request->bindParam(':country', $this->country);
 
-        return $request->execute(); 
+        return $request->execute();
     }
-    
-    public function emailExists($email) {
+
+    public function emailExists($email)
+    {
         $sql = "SELECT COUNT(*) FROM users WHERE email = :email";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':email' => $email]);
         return $stmt->fetchColumn() > 0;
     }
 
+    public function getUserByEmail(string $email): ?array
+    {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->execute([':email' => $email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
 
-
-
-
-
-
-
-
-
-
+    public function getPwdByEmail(string $email): ?string
+    {
+        $stmt = $this->db->prepare("SELECT password FROM users WHERE email = :email");
+        $stmt->execute([':email' => $email]);
+        return $stmt->fetchColumn() ?: null;
+    }
 }
